@@ -53,7 +53,10 @@ requirements:
     - ocaml-dune >=1.0
   host:
     - ocaml ${{ ocaml_compiler_version }}.*
-    - ocaml_${{ target_platform }} ${{ ocaml_compiler_version }}.* ${{ c_toolchain }}
+    # The noarch ocaml metapackage does not pin the windows toolchain track.
+    - if: not unix
+      then:
+        - ocaml_${{ target_platform }} ${{ ocaml_compiler_version }}.* ${{ c_toolchain }}
   # The ocaml run_export does not encode the windows toolchain track.
   run_constraints:
     - if: not unix
